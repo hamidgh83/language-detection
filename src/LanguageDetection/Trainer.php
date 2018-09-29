@@ -14,6 +14,8 @@ namespace LanguageDetection;
  */
 class Trainer extends NgramParser
 {
+    const RESOURCE_DIR = __DIR__ . '/../../resources/*/*.txt';
+    
     /**
      * Generates language profiles for all language files
      *
@@ -24,7 +26,7 @@ class Trainer extends NgramParser
     {
         if (empty($dirname))
         {
-            $dirname = __DIR__ . '/../../resources/*/*.txt';
+            $dirname = self::RESOURCE_DIR;
         }
         else if (!is_dir($dirname) || !is_readable($dirname))
         {
