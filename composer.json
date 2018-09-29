@@ -1,16 +1,16 @@
 {
-  "name": "patrickschur/language-detection",
+  "name": "hamidgh83/language-detection",
   "type": "library",
   "description": "A language detection library for PHP. Detects the language from a given text string.",
   "keywords": ["language", "detection", "detect"],
-  "homepage": "https://github.com/patrickschur/language-detection",
+  "homepage": "https://github.com/hamidgh83/language-detection",
   "license": "MIT",
   "minimum-stability": "stable",
   "prefer-stable": true,
   "authors": [
     {
-      "name": "Patrick Schur",
-      "email": "patrick_schur@outlook.de"
+      "name": "Hamid Ghorashi",
+      "email": "h.ghorashi@gmail.com"
     }
   ],
   "autoload": {
