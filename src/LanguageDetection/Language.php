@@ -115,7 +115,7 @@ class Language extends NgramParser
         return new LanguageResult($result);
     }
 
-    public function getLanguagesSupport(): array
+    public function getSupportLanguages(): array
     {
         $result = array_map(function($value) {
             return basename($value, '.json');
