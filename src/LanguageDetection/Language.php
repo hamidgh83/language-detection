@@ -4,6 +4,9 @@ declare(strict_types = 1);
 
 namespace LanguageDetection;
 
+use LanguageDetection\Tokenizer\WhitespaceTokenizer;
+
+
 /**
  * Class Language
  *
@@ -14,6 +17,10 @@ namespace LanguageDetection;
  */
 class Language extends NgramParser
 {
+    const RESOURCE_JSON = __DIR__ .  '/../../resources/*/*.json';
+
+    private $resourceDir;
+
     /**
      * @var array
      */
@@ -29,7 +36,7 @@ class Language extends NgramParser
     {
         if (empty($dirname))
         {
-            $dirname = __DIR__ . '/../../resources/*/*.json';
+            $dirname = self::RESOURCE_JSON;
         }
         else if (!is_dir($dirname) || !is_readable($dirname))
         {
@@ -41,6 +48,8 @@ class Language extends NgramParser
             $dirname .= '/*/*.json';
         }
 
+        $this->resourceDir = $dirname;
+
         $isEmpty = empty($lang);
 
         foreach (glob($dirname) as $json)
@@ -50,6 +59,16 @@ class Language extends NgramParser
                 $this->tokens += json_decode(file_get_contents($json), true);
             }
         }
+    }
+
+    /**
+     * Get corpus directory
+     * 
+     * @return string absolute path of resource directory
+     */
+    protected function getResourceDir(): string
+    {
+        return $this->resourceDir;
     }
 
     /**
@@ -94,5 +113,14 @@ class Language extends NgramParser
         }
 
         return new LanguageResult($result);
+    }
+
+    public function getLanguagesSupport(): array
+    {
+        $result = array_map(function($value) {
+            return basename($value, '.json');
+        }, array_filter(glob($this->getResourceDir()), 'is_file'));
+
+        return $result;
     }
 }
