@@ -12,14 +12,14 @@ namespace LanguageDetection;
  * @author Patrick Schur <patrick_schur@outlook.de>
  * @package LanguageDetection
  */
-class LanguageResult implements \JsonSerializable, \IteratorAggregate, \ArrayAccess
+class LanguageResult implements \JsonSerializable, \IteratorAggregate, \ArrayAccess, LanguageResultInterface
 {
     const THRESHOLD = .025;
 
     /**
      * @var array
      */
-    private $result = [];
+    protected $result = [];
 
     /**
      * LanguageResult constructor.
@@ -88,18 +88,18 @@ class LanguageResult implements \JsonSerializable, \IteratorAggregate, \ArrayAcc
 
     /**
      * @param \string[] ...$whitelist
-     * @return LanguageResult
+     * @return LanguageResultInterface
      */
-    public function whitelist(string ...$whitelist): LanguageResult
+    public function whitelist(string ...$whitelist): LanguageResultInterface
     {
         return new LanguageResult(array_intersect_key($this->result, array_flip($whitelist)));
     }
 
     /**
      * @param \string[] ...$blacklist
-     * @return LanguageResult
+     * @return LanguageResultInterface
      */
-    public function blacklist(string ...$blacklist): LanguageResult
+    public function blacklist(string ...$blacklist): LanguageResultInterface
     {
         return new LanguageResult(array_diff_key($this->result, array_flip($blacklist)));
     }
@@ -113,9 +113,9 @@ class LanguageResult implements \JsonSerializable, \IteratorAggregate, \ArrayAcc
     }
 
     /**
-     * @return LanguageResult
+     * @return LanguageResultInterface
      */
-    public function bestResults(): LanguageResult
+    public function bestResults(): LanguageResultInterface
     {
         if (!count($this->result))
         {
@@ -130,6 +130,20 @@ class LanguageResult implements \JsonSerializable, \IteratorAggregate, \ArrayAcc
     }
 
     /**
+     * @return String
+     */
+    public function bestResult(): String
+    {
+        $results = $this->bestResults()->close() ?? null;
+        
+        if (is_array($results) && count($results) > 0) {
+            return array_search(max($results), $results);
+        }
+
+        return null;
+    }
+
+    /**
      * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
@@ -140,9 +154,9 @@ class LanguageResult implements \JsonSerializable, \IteratorAggregate, \ArrayAcc
     /**
      * @param int $offset
      * @param int|null $length
-     * @return LanguageResult
+     * @return LanguageResultInterface
      */
-    public function limit(int $offset, int $length = null): LanguageResult
+    public function limit(int $offset, int $length = null): LanguageResultInterface
     {
         return new LanguageResult(array_slice($this->result, $offset, $length));
     }
