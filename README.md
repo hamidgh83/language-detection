@@ -120,6 +120,17 @@ Array
 ```
 <hr style="background-color:#666"/>
 
+#### `bestResult()`
+Returns the best result as a string.
+```php
+$ld->detect('Mag het een onsje meer zijn?')->bestResult();
+```
+Result:
+```text
+string(2) "nl"
+```
+<hr style="background-color:#666"/>
+
 #### `limit(int $offset, int $length = null)`
 You can specify the number of records to return. For example the following code will return the top three entries.
 ```php
@@ -150,6 +161,33 @@ Array
     "ga" => 0.55376344086022,
     "et" => 0.48294930875576,
     "af" => 0.48218125960061,
+    [...]
+)
+```
+<hr style="background-color:#666"/>
+
+#### `getSupportLanguages()`
+Returns the list of supported languages.
+```php
+$ld->getSupportLanguages();
+```
+Result:
+```text
+Array
+(
+    0 => ab
+    1 => af
+    2 => am
+    3 => ar
+    4 => ay
+    5 => az-Cyrl
+    6 => az-Latn
+    7 => be
+    8 => bg
+    9 => bi
+    10 => bn
+    11 => bo
+    12 => br
     [...]
 )
 ```
