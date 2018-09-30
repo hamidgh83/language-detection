@@ -77,7 +77,7 @@ class Language extends NgramParser
      * @param string $str
      * @return LanguageResult
      */
-    public function detect(string $str): LanguageResult
+    public function detect(string $str): LanguageResultInterface
     {
         $str = mb_strtolower($str);
 
