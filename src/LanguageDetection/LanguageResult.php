@@ -140,7 +140,7 @@ class LanguageResult implements \JsonSerializable, \IteratorAggregate, \ArrayAcc
             return array_search(max($results), $results);
         }
 
-        return null;
+        return '';
     }
 
     /**
