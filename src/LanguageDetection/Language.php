@@ -17,7 +17,7 @@ use LanguageDetection\Tokenizer\WhitespaceTokenizer;
  */
 class Language extends NgramParser
 {
-    const RESOURCE_JSON = __DIR__ .  '/../../resources/*/*.json';
+    const RESOURCE_JSON = __DIR__ .  '/../../resources';
 
     private $resourceDir;
 
@@ -34,27 +34,28 @@ class Language extends NgramParser
      */
     public function __construct(array $lang = [], string $dirname = '')
     {
-        if (empty($dirname))
-        {
+        if (empty($dirname)) {
             $dirname = self::RESOURCE_JSON;
-        }
-        else if (!is_dir($dirname) || !is_readable($dirname))
-        {
+        } else if (!is_dir($dirname) || !is_readable($dirname)) {
             throw new \InvalidArgumentException('Provided directory could not be found or is not readable');
-        }
-        else
-        {
+        } else {
             $dirname = rtrim($dirname, '/');
-            $dirname .= '/*/*.json';
         }
 
+        
         $this->resourceDir = $dirname;
-
+        $dirname           .= '/*/*.json';
+        
         $isEmpty = empty($lang);
 
         foreach (glob($dirname) as $json)
         {
-            if ($isEmpty || in_array(basename($json, '.json'), $lang))
+            $fileName = basename($json, '.json');
+            if ($fileName == 'props') {
+                continue;
+            }
+            
+            if ($isEmpty || in_array($fileName, $lang))
             {
                 $this->tokens += json_decode(file_get_contents($json), true);
             }
@@ -119,8 +120,18 @@ class Language extends NgramParser
     {
         $result = array_map(function($value) {
             return basename($value, '.json');
-        }, array_filter(glob($this->getResourceDir()), 'is_file'));
+        }, array_filter(glob($this->getResourceDir() . '/*/*.json'), 'is_file'));
 
         return $result;
+    }
+
+    public function getLanguageProps($lang = null)
+    {
+        $file = $this->getResourceDir() . "/$lang/props.json";
+        if (is_file($file) && is_readable($file)) {
+            return json_decode(file_get_contents($file), true);
+        }
+
+        return [];
     }
 }
