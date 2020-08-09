@@ -1,3 +1,10 @@
+### The package
+
+[![Version](https://poser.pugx.org/hamidgh83/language-detection/version)](//packagist.org/packages/hamidgh83/language-detection)
+[![Total Downloads](https://poser.pugx.org/hamidgh83/language-detection/downloads)](//packagist.org/packages/hamidgh83/language-detection)
+[![Dependents](https://poser.pugx.org/hamidgh83/language-detection/dependents)](//packagist.org/packages/hamidgh83/language-detection)
+[![License](https://poser.pugx.org/hamidgh83/language-detection/license)](//packagist.org/packages/hamidgh83/language-detection)
+
 # language-detection
 ُThis is an extension of [language-detection](https://github.com/patrickschur/language-detection) where you can find its documentation. 
 
