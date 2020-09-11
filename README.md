@@ -37,7 +37,7 @@ string(2) "nl"
 <hr style="background-color:#666"/>
 
 #### `getSupportLanguages()`
-Returns the list of supported languages.
+This method returns a list if supportted languages as an array.
 ```php
 $ld->getSupportLanguages();
 ```
@@ -63,6 +63,28 @@ Array
 ```
 <hr style="background-color:#666"/>
 
+#### getLanguageProps($lang)
+Every language has their own properties and you can get the it as follow:
+```php
+$lng    = new Language();
+$result = $lng->detect('This is an example text.');
+$props  = $lng->getLanguageProps($result->bestResult());
+```
+Result:
+```text
+Array
+(
+    'props' => Array(
+        'language' => 'English',
+        'language' => Array (
+            'United Kingdom',
+            'United States of America'
+        ),
+        'direction' => 'ltr'
+    )
+)
+```
+<hr style="background-color:#666"/>
 
 ## Supported languages
 The library currently supports 110 languages.
