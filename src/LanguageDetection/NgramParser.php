@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace LanguageDetection;
 
@@ -30,7 +30,7 @@ abstract class NgramParser
     /**
      * @var int
      */
-    protected $maxNgrams = 310;
+    protected $maxNgrams = 300;
 
     /**
      * @var TokenizerInterface
@@ -43,8 +43,7 @@ abstract class NgramParser
      */
     public function setMinLength(int $minLength)
     {
-        if ($minLength <= 0 || $minLength >= $this->maxLength)
-        {
+        if ($minLength <= 0 || $minLength >= $this->maxLength) {
             throw new \LengthException('$minLength must be greater than zero and less than $this->maxLength.');
         }
 
@@ -57,8 +56,7 @@ abstract class NgramParser
      */
     public function setMaxLength(int $maxLength)
     {
-        if ($maxLength <= $this->minLength)
-        {
+        if ($maxLength <= $this->minLength) {
             throw new \LengthException('$maxLength must be greater than $this->minLength.');
         }
 
@@ -71,8 +69,7 @@ abstract class NgramParser
      */
     public function setMaxNgrams(int $maxNgrams)
     {
-        if ($maxNgrams <= 0)
-        {
+        if ($maxNgrams <= 0) {
             throw new \LengthException('$maxNgrams must be greater than zero.');
         }
 
@@ -95,8 +92,7 @@ abstract class NgramParser
      */
     private function tokenize(string $str)
     {
-        if (null === $this->tokenizer)
-        {
+        if (null === $this->tokenizer) {
             $this->tokenizer = new WhitespaceTokenizer();
         }
 
@@ -111,31 +107,25 @@ abstract class NgramParser
     {
         $tokens = [];
 
-        foreach ($this->tokenize($str) as $word)
-        {
+        foreach ($this->tokenize($str) as $word) {
             $l = mb_strlen($word);
 
-            for ($i = $this->minLength; $i <= $this->maxLength; ++$i)
-            {
-                for ($j = 0; ($i + $j - 1) < $l; ++$j, ++$tmp)
-                {
+            for ($i = $this->minLength; $i <= $this->maxLength; ++$i) {
+                for ($j = 0; ($i + $j - 1) < $l; ++$j, ++$tmp) {
                     $tmp = &$tokens[$i][mb_substr($word, $j, $i)];
                 }
             }
         }
 
-        foreach ($tokens as $i => $token)
-        {
+        foreach ($tokens as $i => $token) {
             $sum = array_sum($token);
 
-            foreach ($token as $j => $value)
-            {
+            foreach ($token as $j => $value) {
                 $tokens[$i][$j] = $value / $sum;
             }
         }
 
-        if (!count($tokens))
-        {
+        if (!count($tokens)) {
             return [];
         }
 
